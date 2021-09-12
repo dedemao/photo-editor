@@ -26,13 +26,6 @@
       </button>
       <button
         class="toolbar__button"
-        data-action="crop"
-        title="Crop (C)"
-      >
-        <span class="fa fa-crop" />
-      </button>
-      <button
-        class="toolbar__button"
         data-action="zoom-in"
         title="Zoom In (I)"
       >
@@ -158,7 +151,7 @@ export default {
 
           break;
 
-          // Delete the image
+        // Delete the image
         case 'Delete':
           this.reset();
           break;
@@ -178,71 +171,71 @@ export default {
           this.crop();
           break;
 
-          // Clear crop area
+        // Clear crop area
         case 'Escape':
           this.clear();
           break;
 
-          // Move to the left
+        // Move to the left
         case 'ArrowLeft':
           e.preventDefault();
           cropper.move(-1, 0);
           break;
 
-          // Move to the top
+        // Move to the top
         case 'ArrowUp':
           e.preventDefault();
           cropper.move(0, -1);
           break;
 
-          // Move to the right
+        // Move to the right
         case 'ArrowRight':
           e.preventDefault();
           cropper.move(1, 0);
           break;
 
-          // Move to the bottom
+        // Move to the bottom
         case 'ArrowDown':
           e.preventDefault();
           cropper.move(0, 1);
           break;
 
-          // Enter crop mode
+        // Enter crop mode
         case 'c':
           cropper.setDragMode('crop');
           break;
 
-          // Enter move mode
+        // Enter move mode
         case 'm':
           cropper.setDragMode('move');
           break;
 
-          // Zoom in
+        // Zoom in
         case 'i':
           cropper.zoom(0.1);
           break;
 
-          // Zoom out
+        // Zoom out
         case 'o':
           cropper.zoom(-0.1);
           break;
 
-          // Rotate left
+        // Rotate left
         case 'l':
           cropper.rotate(-90);
           break;
 
-          // Rotate right
+        // Rotate right
         case 'r':
           cropper.rotate(90);
           break;
 
-          // Flip horizontal
+        // Flip horizontal
         case 'h':
           cropper.scaleX(-cropper.getData().scaleX || -1);
           break;
 
-          // Flip vertical
+        // Flip vertical
         case 'v':
           cropper.scaleY(-cropper.getData().scaleY || -1);
           break;
@@ -270,6 +263,7 @@ export default {
         autoCrop: false,
         dragMode: 'move',
         background: false,
+        toggleDragModeOnDblclick: false,
 
         ready: () => {
           if (this.croppedData) {
@@ -371,7 +365,7 @@ export default {
   height: 100%;
   justify-content: center;
 
-  & > img {
+& > img {
     max-height: 100%;
     max-width: 100%;
   }
@@ -401,13 +395,13 @@ export default {
   text-align: center;
   width: 2rem;
 
-  &:focus {
-    outline: none;
-  }
+&:focus {
+   outline: none;
+ }
 
-  &:hover {
-    background-color: #0074d9;
-    color: #fff;
-  }
+&:hover {
+   background-color: #0074d9;
+   color: #fff;
+ }
 }
 </style>
