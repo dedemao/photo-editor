@@ -1,3 +1,6 @@
+# 说明
+在[fengyuanchen/photo-editor](https://github.com/fengyuanchen/photo-editor) 的基础上，增加了通过地址栏传递url参数实现图片预览，去掉了多余的按钮。
+
 # Photo Editor
 
 > A photo editing application based on the [Cropper.js](https://github.com/fengyuanchen/cropperjs).
