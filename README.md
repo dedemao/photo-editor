@@ -1,5 +1,7 @@
 # 说明
 在[fengyuanchen/photo-editor](https://github.com/fengyuanchen/photo-editor) 的基础上，增加了通过地址栏传递url参数实现图片预览，去掉了多余的按钮。
+- [DEMO](https://www.dedemao.com/demo/html/photo/index.html?url=https://www.dedemao.com/preview/js/14334/imgs/4.jpg)
+- 需要注意的是图片地址不允许跨域
 
 # Photo Editor
 
