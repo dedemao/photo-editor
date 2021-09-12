@@ -4,13 +4,7 @@
       class="nav"
       @click="click"
     >
-      <label
-        v-if="!data.loaded"
-        class="nav__button"
-        for="file"
-        title="Upload"
-        role="button"
-      ><span class="fa fa-upload" /></label>
+
       <button
         v-if="data.cropped"
         type="button"
@@ -20,15 +14,7 @@
       >
         <span class="fa fa-undo" />
       </button>
-      <button
-        v-if="data.loaded && !data.cropping"
-        type="button"
-        class="nav__button nav__button--danger"
-        data-action="remove"
-        title="Delete (Delete)"
-      >
-        <span class="fa fa-trash" />
-      </button>
+
       <button
         v-if="data.cropping"
         type="button"
@@ -54,11 +40,7 @@
         :download="data.name"
         :href="data.url"
       ><span class="fa fa-download" /></a>
-      <a
-        class="nav__button"
-        href="https://github.com/fengyuanchen/photo-editor"
-        title="View on GitHub"
-      ><span class="fa fa-github" /></a>
+
     </nav>
   </div>
 </template>
