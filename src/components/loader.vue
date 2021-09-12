@@ -36,6 +36,8 @@ export default {
 
   mounted() {
     this.$el.ownerDocument.addEventListener('paste', (this.onPaste = this.paste.bind(this)));
+    const url = this.getQueryVariable('url');
+    this.getFileFromUrl(url);
   },
 
   beforeDestroy() {
@@ -71,13 +73,15 @@ export default {
       const { files } = target;
 
       if (files && files.length > 0) {
-        this.read(files[0]).then((data) => {
-          target.value = '';
-          this.update(data);
-        }).catch((e) => {
-          target.value = '';
-          this.alert(e);
-        });
+        this.read(files[0])
+          .then((data) => {
+            target.value = '';
+            this.update(data);
+          })
+          .catch((e) => {
+            target.value = '';
+            this.alert(e);
+          });
       }
     },
 
@@ -101,12 +105,12 @@ export default {
 
     paste(e) {
       const { items } = e.clipboardData || window.clipboardData;
-
       e.preventDefault();
 
       if (items && items.length > 0) {
         new Promise((resolve, reject) => {
-          const item = Array.from(items).pop();
+          const item = Array.from(items)
+            .pop();
           const error = new Error('Please paste an image file or URL.');
 
           if (item.kind === 'file') {
@@ -144,9 +148,10 @@ export default {
             reject(error);
           }
         })
-          .then((blob) => this.read(blob, e).then((data) => {
-            this.update(data);
-          }))
+          .then((blob) => this.read(blob, e)
+            .then((data) => {
+              this.update(data);
+            }))
           .catch(this.alert);
       }
     },
@@ -155,8 +160,54 @@ export default {
       window.alert(e && e.message ? e.message : e);
     },
 
+    getFileFromUrl(url) {
+      if (REGEXP_URLS.test(url)) {
+        const name = this.getFileName(url);
+        const xhr = new XMLHttpRequest();
+        xhr.onabort = alert;
+        xhr.onerror = alert;
+        xhr.ontimeout = alert;
+
+        xhr.onprogress = () => {
+          if (!REGEXP_MIME_TYPE_IMAGES.test(xhr.getResponseHeader('content-type'))) {
+            xhr.abort();
+          }
+        };
+
+        xhr.onload = () => {
+          const blob = xhr.response;
+          this.read(blob)
+            .then((data) => {
+              data.name = name;
+              this.update(data);
+            })
+        };
+
+        xhr.open('GET', url, true);
+        xhr.responseType = 'blob';
+        xhr.send();
+      } else {
+        alert('路径格式错误');
+      }
+    },
+
     update(data) {
       Object.assign(this.data, data);
+    },
+    getQueryVariable(variable) {
+      const query = window.location.search.substring(1);
+      const vars = query.split('&');
+      for (let i = 0; i < vars.length; i++) {
+        let pair = vars[i].split('=');
+        if (pair[0] == variable) {
+          return pair[1];
+        }
+      }
+      return false;
+    },
+    getFileName(name) {
+      let pos = name.lastIndexOf('\/'); // 查找最后一个/的位置
+      return name.substring(pos + 1); // 截取最后一个/位置到字符长度，也就是截取文件名
     },
   },
 };
@@ -169,12 +220,14 @@ export default {
   overflow: hidden;
   width: 100%;
 
-  & > p {
-    color: #999;
-    display: table-cell;
-    text-align: center;
-    vertical-align: middle;
-  }
+&
+> p {
+  color: #999;
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+}
+
 }
 
 .browse {
@@ -182,9 +235,11 @@ export default {
   cursor: pointer;
   margin-left: .25rem;
 
-  &:hover {
-    color: #08f;
-    text-decoration: underline;
-  }
+&
+:hover {
+  color: #08f;
+  text-decoration: underline;
+}
+
 }
 </style>
